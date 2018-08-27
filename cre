@@ -19,6 +19,8 @@ cre(){
     }
 
     createTemplateFile(){
+        
+
         local file
         local templateFile
         local fileDir
@@ -27,6 +29,9 @@ cre(){
         local fileExtension
         
         file="$1"
+
+        [[ -a "$file" ]] && echo Exist such file or directory: "$file" && return 0;
+
         fileDir=$(dirname "$file")
         fileName=$(basename "$file")
         fileBaseName=${fileName%.*}
@@ -56,7 +61,7 @@ cre(){
         local args
         local ext
 
-        if [[ ${1:0:3} = "/x:" ]]; then
+        if [[ "${1:0:3}" = "/x:" ]]; then
             args=( "${@:2}" )
             ext="${1:3}"
         else
@@ -65,7 +70,6 @@ cre(){
         fi
 
         for file in "${args[@]}"; do
-            [[ -a "$file" ]] && echo Exist such file or directory: "$file" && continue
             createTemplateFile "$file" "$ext"
         done
 
