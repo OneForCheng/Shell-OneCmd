@@ -1,7 +1,5 @@
 # OneCmd
 
----
-
 ## Introduction:
 
 OneCmd contains a variety of convenient and practical shell script tools.
