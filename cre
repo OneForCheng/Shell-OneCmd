@@ -3,7 +3,9 @@
 cre(){
 
     showUsage(){
-        echo "usage: cre [/x:ext] file [...]"
+        local scriptFileBaseName
+        scriptFileBaseName=$(basename "$0")
+        echo "usage: $scriptFileBaseName [/x:ext] file [...]"
         echo
         echo "       /?        Show usage."
         echo "       /x:ext    'ext' is used to filter template file, which is latter part of template file name."
