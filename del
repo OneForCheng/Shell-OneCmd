@@ -3,7 +3,9 @@
 del(){
 
     showUsage(){
-        echo "usage: del file [...]"
+        local scriptFileBaseName
+        scriptFileBaseName=$(basename "$0")
+        echo "usage: $scriptFileBaseName file [...]"
         echo
         echo "       /?        Show usage."
         echo
