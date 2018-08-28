@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+del(){
+
+    showUsage(){
+        echo "usage: del file [...]"
+        echo
+        echo "       /?        Show usage."
+        echo
+        echo "       file can be a directory."
+        echo
+        return 0;
+    }
+
+    main(){
+        [[ $# -eq 0 ]] && showUsage && return 1;
+        [[ "$*" =~ "/?" ]] && showUsage && return 0;
+
+        for file in "$@"; do
+            [[ "$file" = "/" ]] && echo "Can't delete '$file' directly" && continue
+            [[ ! -a "$file" ]] && echo No such file or directory: "$file" && continue
+            rm -rf "$file"
+        done
+
+        return 0;
+    }
+
+    main "$@"
+}
+
+del "$@"
