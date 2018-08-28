@@ -22,6 +22,7 @@ cre(){
         
 
         local file
+        local ext
         local templateFile
         local fileDir
         local fileName
@@ -29,6 +30,7 @@ cre(){
         local fileExtension
         
         file="$1"
+        ext="$2"
 
         [[ -a "$file" ]] && echo Exist such file or directory: "$file" && return 0;
 
@@ -38,13 +40,17 @@ cre(){
         
         [[ ! -a "$fileDir" ]] && mkdir -p "$fileDir"
         
-        if [[ "$fileName" = "$fileBaseName" ]]; then
+        if [[ "$ext" = "" && "$fileName" = "$fileBaseName" ]]; then
             touch "$file"
             return 0;
         fi
 
-        fileExtension=${fileName##*.}            
-        templateFile=$(getScriptDirectory)/template/template"$2"."$fileExtension"
+        if [[ "$ext" = "" ]]; then
+            fileExtension=${fileName##*.}            
+            templateFile=$(getScriptDirectory)/template/template."$fileExtension"
+        else
+            templateFile=$(getScriptDirectory)/template/template"$2"
+        fi
         
         if [[ -a "$templateFile" ]]; then
             cp "$templateFile" "$file"
