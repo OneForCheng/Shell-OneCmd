@@ -9,26 +9,26 @@ clip(){
         echo
         echo "       /?        Show usage."
         echo
-        echo "       copy a file or directory to clipboard."
+        echo "       Copy a file or directory to clipboard."
         echo
         return 0;
     }
 
-    copyFileToClipboard(){
+    copyFileToClipBoard(){
         osascript \
             -e 'on run {a}' \
             -e 'set the clipboard to POSIX file (POSIX path of ((POSIX file a) as alias))' \
             -e 'end' \
-            "$@" 2> /dev/null
-    }   
+            "$1" 2> /dev/null
+    }
 
     main(){
         [[ $# -eq 0 ]] && showUsage && return 1;
         [[ "$*" =~ "/?" ]] && showUsage && return 0;
 
-        copyFileToClipboard "$@"
+        copyFileToClipBoard "$1"
 
-        return 0
+        return 0;
     }
 
     main "$@"
