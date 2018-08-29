@@ -3,7 +3,12 @@
 action(){
 
     showUsage(){
-        echo "show usage."
+        local scriptFileBaseName
+        scriptFileBaseName=$(basename "$0")
+        echo "usage: $scriptFileBaseName "
+        echo
+        echo "       /?        Show usage."
+        
 
         return 0;
     }
