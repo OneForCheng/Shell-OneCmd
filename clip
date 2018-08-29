@@ -1,21 +1,37 @@
 #!/usr/bin/env bash
 
-action(){
+clip(){
 
     showUsage(){
-        echo "show usage."
-
+        local scriptFileBaseName
+        scriptFileBaseName=$(basename "$0")
+        echo "usage: $scriptFileBaseName file"
+        echo
+        echo "       /?        Show usage."
+        echo
+        echo "       copy a file or directory to clipboard."
+        echo
         return 0;
     }
+
+    copyFileToClipboard(){
+        osascript \
+            -e 'on run {a}' \
+            -e 'set the clipboard to POSIX file (POSIX path of ((POSIX file a) as alias))' \
+            -e 'end' \
+            "$@" 2> /dev/null
+    }   
 
     main(){
         [[ $# -eq 0 ]] && showUsage && return 1;
         [[ "$*" =~ "/?" ]] && showUsage && return 0;
 
-        return 0;
+        copyFileToClipboard "$@"
+
+        return 0
     }
 
     main "$@"
 }
 
-action "$@"
+clip "$@"
