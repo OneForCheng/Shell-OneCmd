@@ -5,17 +5,37 @@ action(){
     showUsage(){
         local scriptFileBaseName
         scriptFileBaseName=$(basename "$0")
-        echo "usage: $scriptFileBaseName "
+        echo "usage: $scriptFileBaseName fileName newFileName[.ext]"
         echo
         echo "       /?        Show usage."
         
+        return 0;
+    }
+
+    rename(){
+        local fileName
+        local newFileName
+        local fileExtension
+
+        fileName="$1"
+        newFileName="$2"
+
+        if [[ "$newFileName" =~ \. || ! "$fileName" =~ \. ]]; then
+            echo mv "$fileName" "$newFileName"
+        else
+            fileExtension=${fileName##*.}
+            echo mv "$fileName" "$newFileName"."$fileExtension"
+        fi
 
         return 0;
     }
 
     main(){
-        [[ $# -eq 0 ]] && showUsage && return 1;
         [[ "$*" =~ "/?" ]] && showUsage && return 0;
+        [[ $# -ne 2 ]] && showUsage && return 1;
+        [[ ! -a "$1" ]] && echo No such file or directory: "$1" && return 1;        
+
+        rename "$1" "$2"
 
         return 0;
     }
