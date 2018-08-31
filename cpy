@@ -27,15 +27,14 @@ cpy(){
     copyFiles(){
         local i
         local file
-        local args
         local lastArg
 
-        args=( "$@" )
-        lastArg="${args[($#-1)]}"
+
+        lastArg="${@:$#}"
 
         if [[ $# -gt 1 && -d "$lastArg" ]]; then
             for ((i=1; i<$#; i++)); do
-              copyFileToTargetPath "${args[$i]}" "$lastArg"
+              copyFileToTargetPath "${@:$i:1}" "$lastArg"
             done
         elif [[ -f "$lastArg" && -d "$OLDPWD" ]]; then
             for file in "$@"; do
@@ -44,7 +43,7 @@ cpy(){
         elif [[ $# -eq 2 && -a "$1" ]]; then
             cp -af "$1" "$2"
         else
-            echo No such directory: "$lastArg"
+            echo No find target directory
         fi
 
         return 0;
