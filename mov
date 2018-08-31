@@ -1,21 +1,60 @@
 #!/usr/bin/env bash
 
-action(){
+mov(){
 
     showUsage(){
         local scriptFileBaseName
         scriptFileBaseName=$(basename "$0")
-        echo "usage: $scriptFileBaseName "
+        echo "usage: $scriptFileBaseName source_file target_file"
+        echo "       $scriptFileBaseName source... [target_directory]"
         echo
         echo "       /?        Show usage."
-        
+        echo "       source    It can be a file or directory."
+        echo
+        echo "       It will try use 'OLDPWD' variable if the target directory is not exist,"
+        echo "       but it needs '.' or 'source' to run this script."
+        echo
+        return 0;
+    }
+
+    moveFileToTargetPath(){
+        [[ ! -a "$1" ]] && echo No such file or directory: "$1" && return 1;
+        [[ "$1" == "$2" ]] && echo "Not copied: $1 and $2 are identical" && return 1;
+        mv "$1" "$2"
+        return 0;
+    }
+
+    moveFiles(){
+        local i
+        local file
+        local args
+        local lastArg
+
+        args=( "$@" )
+        lastArg="${args[($#-1)]}"
+
+        if [[ $# -gt 1 && -d "$lastArg" ]]; then
+            for ((i=1; i<$#; i++)); do
+              moveFileToTargetPath "${args[$i]}" "$lastArg"
+            done
+        elif [[ -f "$lastArg" && -d "$OLDPWD" ]]; then
+            for file in "$@"; do
+              moveFileToTargetPath "$file" "$OLDPWD"
+            done
+        elif [[ $# -eq 2 && -a "$1" ]]; then
+            mv "$1" "$2"
+        else
+            echo No such directory: "$lastArg"
+        fi
 
         return 0;
     }
 
     main(){
         [[ $# -eq 0 ]] && showUsage && return 1;
-        [[ "$*" =~ "/?" ]] && showUsage && return 0;
+        [[ "$*" == *"/?"* ]] && showUsage && return 0;
+
+        moveFiles "$@"
 
         return 0;
     }
@@ -23,4 +62,4 @@ action(){
     main "$@"
 }
 
-action "$@"
+mov "$@"
