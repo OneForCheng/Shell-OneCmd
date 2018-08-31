@@ -19,6 +19,7 @@ cpy(){
 
     copyFileToTargetPath(){
         [[ ! -a "$1" ]] && echo No such file or directory: "$1" && return 1;
+        [[ "$1" == "$2" ]] && echo "Not copied: $1 and $2 are identical" && return 1;
         cp -af "$1" "$2"
         return 0;
     }
@@ -27,20 +28,23 @@ cpy(){
         local i
         local file
         local args
+        local lastArg
 
         args=( "$@" )
-        if [[ $# -gt 1 && -d "${args[$#]}" ]]; then
+        lastArg="${args[($#-1)]}"
+
+        if [[ $# -gt 1 && -d "$lastArg" ]]; then
             for ((i=1; i<$#; i++)); do
-              copyFileToTargetPath "${args[$i]}" "${args[$#]}"
+              copyFileToTargetPath "${args[$i]}" "$lastArg"
             done
-        elif [[ -f "${args[$#]}" && -d "$OLDPWD" ]]; then
+        elif [[ -f "$lastArg" && -d "$OLDPWD" ]]; then
             for file in "$@"; do
               copyFileToTargetPath "$file" "$OLDPWD"
             done
         elif [[ $# -eq 2 && -a "$1" ]]; then
             cp -af "$1" "$2"
         else
-            echo No such directory: "${args[$#]}"
+            echo No such directory: "$lastArg"
         fi
 
         return 0;
