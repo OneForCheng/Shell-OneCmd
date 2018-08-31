@@ -18,6 +18,8 @@ del(){
         [[ $# -eq 0 ]] && showUsage && return 1;
         [[ "$*" =~ "/?" ]] && showUsage && return 0;
 
+        local file
+        
         for file in "$@"; do
             [[ "$file" = "/" ]] && echo "Can't delete '$file' directly" && continue
             [[ ! -a "$file" ]] && echo No such file or directory: "$file" && continue

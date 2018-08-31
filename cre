@@ -68,7 +68,8 @@ cre(){
 
         local args
         local ext
-
+        local file
+        
         if [[ "${1:0:3}" = "/x:" ]]; then
             args=( "${@:2}" )
             ext="${1:3}"
