@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-action(){
+ren(){
 
     showUsage(){
         local scriptFileBaseName
@@ -21,10 +21,10 @@ action(){
         newFileName="$2"
 
         if [[ "$newFileName" =~ \. || ! "$fileName" =~ \. ]]; then
-            echo mv "$fileName" "$newFileName"
+            mv "$fileName" "$newFileName"
         else
             fileExtension=${fileName##*.}
-            echo mv "$fileName" "$newFileName"."$fileExtension"
+            mv "$fileName" "$newFileName"."$fileExtension"
         fi
 
         return 0;
@@ -43,4 +43,4 @@ action(){
     main "$@"
 }
 
-action "$@"
+ren "$@"
