@@ -36,7 +36,7 @@ cpy(){
             for ((i=1; i<$#; i++)); do
               copyFileToTargetPath "${@:$i:1}" "$lastArg"
             done
-        elif [[ -f "$lastArg" && -d "$OLDPWD" ]]; then
+        elif [[ -a "$lastArg" && -d "$OLDPWD" ]]; then
             for file in "$@"; do
               copyFileToTargetPath "$file" "$OLDPWD"
             done
