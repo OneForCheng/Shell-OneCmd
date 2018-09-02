@@ -42,7 +42,7 @@ cre(){
         
         [[ ! -a "$fileDir" ]] && mkdir -p "$fileDir"
         
-        if [[ "$ext" = "" && "$fileName" = "$fileBaseName" ]]; then
+        if [[ "$ext" == "" && "$fileName" == "$fileBaseName" ]]; then
             touch "$file"
             return 0;
         fi
@@ -64,13 +64,13 @@ cre(){
 
     main(){
         [[ $# -eq 0 ]] && showUsage && return 1;
-        [[ "$*" =~ "/?" ]] && showUsage && return 0;
+        [[ "$*" == *"/?"* ]] && showUsage && return 0;
 
         local args
         local ext
         local file
         
-        if [[ "${1:0:3}" = "/x:" ]]; then
+        if [[ "${1:0:3}" == "/x:" ]]; then
             args=( "${@:2}" )
             ext="${1:3}"
         else

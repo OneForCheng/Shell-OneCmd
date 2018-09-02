@@ -24,7 +24,7 @@ clip(){
 
     main(){
         [[ $# -eq 0 ]] && showUsage && return 1;
-        [[ "$*" =~ "/?" ]] && showUsage && return 0;
+        [[ "$*" == *"/?"* ]] && showUsage && return 0;
 
         copyFileToClipBoard "$1"
 
