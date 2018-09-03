@@ -13,7 +13,7 @@ path(){
         echo "       /?        Show usage."
         echo "       -r        Remove key-value."
         echo "       key       It's the 'key' of key-value."
-        echo "       value     It's the 'value' of key-value."
+        echo "       value     It's the 'value' of key-value and It must be a file or directory by default."
         echo 
         echo "       It will show all key-value when the arguments is empty."
         echo 
