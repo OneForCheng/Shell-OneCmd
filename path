@@ -1,21 +1,116 @@
 #!/usr/bin/env bash
 
 path(){
-
+    local dataDictFile
+    
     showUsage(){
         local scriptFileBaseName
         scriptFileBaseName=$(basename "$0")
-        echo "usage: $scriptFileBaseName "
+        echo "usage: $scriptFileBaseName key"
+        echo "       $scriptFileBaseName key value"
+        echo "       $scriptFileBaseName -r key..."
         echo
         echo "       /?        Show usage."
-        
+        echo "       -r        Remove key-value."
+        echo "       key       It's the 'key' of key-value."
+        echo "       value     It's the 'value' of key-value."
+        echo 
+        echo "       It will show all key-value when the arguments is empty."
+        echo 
 
         return 0;
     }
 
+    getScriptDirectory(){
+        cd "$(dirname "$0")" && pwd
+        return 0;
+    }
+
+    showAllPaths(){
+        cat "$dataDictFile"
+        return 0;        
+    }
+
+    showPath(){
+        grep -E "^$1" "$dataDictFile" | head -1
+        return 0;
+    }
+
+    setPath(){
+        local line
+        local tempFile
+        tempFile=$(mktemp)
+        
+        [[ ! -a "$2" ]] && echo No such file or directory: "$2" && return 1;
+
+        echo "$1"="$2">"$tempFile"
+        cat "$dataDictFile" | while read line
+        do
+            if [[ "${line%%=*}" != "$1" ]]; then
+                echo "$line">>"$tempFile"                
+            fi
+        done
+
+        cat "$tempFile" | sort >"$dataDictFile"
+
+        return 0;
+    }
+
+    removePath(){
+        local line
+        local tempFile
+        local isFound
+        
+        isFound="false"
+        tempFile=$(mktemp)
+
+        while read line; do
+            if [[ "${line%%=*}" == "$1" ]]; then
+                isFound="true"
+            else
+                echo "$line">>"$tempFile"
+            fi
+        done < "$dataDictFile"
+
+        if [[ "$isFound" == "true" ]]; then
+            cp -af "$tempFile" "$dataDictFile"
+        else
+            echo No such key: "$1"
+        fi
+
+        return 0;
+    }
+
+    removePaths(){
+        local key
+        for key in "$@"; do
+            removePath "$key"
+        done
+        return 0;
+    }
+
+    init(){
+        dataDictFile=$(getScriptDirectory)/$(basename "$0").dd
+        [[ ! -f "$dataDictFile" ]] && touch "$dataDictFile"
+        return 0;
+    }
+
     main(){
-        [[ $# -eq 0 ]] && showUsage && return 1;
-        [[ "$*" =~ "/?" ]] && showUsage && return 0;
+        init
+
+        [[ $# -eq 0 ]] && showAllPaths && return 0;
+        [[ "$*" == *"/?"* ]] && showUsage && return 0;
+        
+        if [[ $# -eq 1 ]]; then
+            showPath "$1"
+        elif [[ "$1" == "-r" ]]; then
+            removePaths "${@:2}"
+        elif [[ $# -eq 2 ]]; then
+            setPath "$1" "$2"
+        else
+            showUsage
+            return 1; 
+        fi
 
         return 0;
     }
