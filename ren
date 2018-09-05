@@ -8,7 +8,9 @@ ren(){
         echo "usage: $scriptFileBaseName fileName newFileName[.ext]"
         echo
         echo "       /?        Show usage."
-        
+        echo
+        echo "       It can rename the file or directory."
+        echo        
         return 0;
     }
 

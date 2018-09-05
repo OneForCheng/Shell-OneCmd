@@ -10,6 +10,7 @@ cre(){
         echo "       /?        Show usage."
         echo "       /x:ext    'ext' is used to filter template file, which is latter part of template file name."
         echo
+        echo "       It can create the file by the template file."
         echo "       All template files are in 'template' directory, which is in this script file's parent direcory."
         echo
         return 0;

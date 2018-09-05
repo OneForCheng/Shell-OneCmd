@@ -9,7 +9,7 @@ clip(){
         echo
         echo "       /?        Show usage."
         echo
-        echo "       Copy a file or directory to clipboard."
+        echo "       It can copy a file or directory to clipboard."
         echo
         return 0;
     }

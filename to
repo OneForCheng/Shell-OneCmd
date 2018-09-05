@@ -8,6 +8,7 @@ to(){
         echo "       /?        Show usage."
         echo "       key       It's the 'key' of key-value or the front part of the 'key'."
         echo
+        echo "       It can change the current working directory and is similar to 'cd' command."
         echo "       It needs '.' or 'source' to run this script when the first run."
         echo "       It will show all key-value when the arguments is empty."
         echo

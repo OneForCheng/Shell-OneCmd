@@ -11,6 +11,7 @@ cpy(){
         echo "       /?        Show usage."
         echo "       source    It can be a file or directory."
         echo
+        echo "       It can copy multiple files or directories to the target directory."
         echo "       It will try use 'OLDPWD' variable if the target directory is not exist,"
         echo "       but it needs '.' or 'source' to run this script."
         echo

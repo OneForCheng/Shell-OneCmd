@@ -9,7 +9,7 @@ del(){
         echo
         echo "       /?        Show usage."
         echo
-        echo "       File can be a directory."
+        echo "       It can delete multiple files or directories directly."
         echo
         return 0;
     }
