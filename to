@@ -3,12 +3,12 @@
 to(){
 
     showUsage(){
-        local scriptFileBaseName
-        scriptFileBaseName=$(basename "$0")
-        echo "usage: $scriptFileBaseName "
+        echo "usage: to [key]"
         echo
         echo "       /?        Show usage."
-        
+        echo "       key       It's the 'key' of key-value or the front part of the 'key'."
+        echo
+        echo "       It will show all key-value when the arguments is empty."
 
         return 0;
     }
