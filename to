@@ -8,8 +8,13 @@ to(){
         echo "       /?        Show usage."
         echo "       key       It's the 'key' of key-value or the front part of the 'key'."
         echo
+        echo "       It needs '.' or 'source' to run this script when the first run."
         echo "       It will show all key-value when the arguments is empty."
-
+        echo
+        echo "dependencies:"
+        echo
+        echo "       'path' script file"
+        echo
         return 0;
     }
 
