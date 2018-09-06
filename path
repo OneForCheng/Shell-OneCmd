@@ -45,14 +45,14 @@ path(){
         [[ ! -a "$2" ]] && echo No such file or directory: "$2" && return 1;
 
         echo "$1"="$2">"$tempFile"
-        cat "$dataDictFile" | while read line
+        while read -r line
         do
             if [[ "${line%%=*}" != "$1" ]]; then
                 echo "$line">>"$tempFile"                
             fi
-        done
+        done < "$dataDictFile"
 
-        cat "$tempFile" | sort >"$dataDictFile"
+        sort < "$tempFile" >"$dataDictFile"
 
         return 0;
     }
@@ -65,7 +65,7 @@ path(){
         isFound="false"
         tempFile=$(mktemp)
 
-        while read line; do
+        while read -r line; do
             if [[ "${line%%=*}" == "$1" ]]; then
                 isFound="true"
             else
