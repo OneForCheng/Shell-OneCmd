@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# load function to current bash envirnment by '.' or 'source' command
+. cpy /? 1>/dev/null 2>/dev/null
+. mov /? 1>/dev/null 2>/dev/null
+. to /? 1>/dev/null 2>/dev/null
+. cf /? 1>/dev/null 2>/dev/null
+
