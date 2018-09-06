@@ -3,10 +3,8 @@
 mov(){
 
     showUsage(){
-        local scriptFileBaseName
-        scriptFileBaseName=$(basename "$0")
-        echo "usage: $scriptFileBaseName source_file target_file"
-        echo "       $scriptFileBaseName source... [target_directory]"
+        echo "usage: mov source_file target_file"
+        echo "       mov source... [target_directory]"
         echo
         echo "       /?        Show usage."
         echo "       source    It can be a file or directory."
