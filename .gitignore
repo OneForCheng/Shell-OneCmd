@@ -1,4 +1,5 @@
-.idea
+.idea/
 template/template-task.md
 template/template-task.en.md
 path.dd
+.cmdrc_local
