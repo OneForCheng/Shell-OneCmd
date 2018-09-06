@@ -34,6 +34,7 @@ to(){
                 cd "$targetDir"
             fi
         fi
+        return 0;
     }
 
     main(){
