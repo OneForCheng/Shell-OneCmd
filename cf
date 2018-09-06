@@ -15,7 +15,7 @@ cf(){
         [[ "$*" == *"/?"* ]] && showUsage && return 0;
         [[ $# -gt 1 ]] && showUsage && return 1;
 
-        [[ $# -eq 0 ]] && cd $OLDPWD && return 0;
+        [[ $# -eq 0 ]] && cd "$OLDPWD" && return 0;
 
         return 0;
     }
