@@ -11,11 +11,19 @@ cf(){
         return 0;
     }
 
+    
+
     main(){
         [[ "$*" == *"/?"* ]] && showUsage && return 0;
         [[ $# -gt 1 ]] && showUsage && return 1;
 
         [[ $# -eq 0 ]] && cd "$OLDPWD" && return 0;
+
+        local array=($1 $1* *$1 *$1*)
+        
+        for dir in ${array[@]}; do
+            [[ -d "$dir" ]] && cd "$dir" && return 0;
+        done
 
         return 0;
     }
