@@ -15,8 +15,8 @@ cf(){
         local folders
         folders=("$1"/ "$1"*/ *"$1"/ *"$1"*/)
 
-        for dir in "${folders[@]}"; do
-            [[ -d "$dir" ]] && cd "$dir" && return 0;
+        for folder in "${folders[@]}"; do
+            [[ -d "$folder" ]] && cd "$folder" && return 0;
         done
 
         return 1;
