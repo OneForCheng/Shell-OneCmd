@@ -12,6 +12,7 @@ cf(){
     }
 
     changeDirectoryByPartialMatching(){
+        local folder
         local folders
         folders=("$1"/ "$1"*/ *"$1"/ *"$1"*/)
 
@@ -42,15 +43,32 @@ cf(){
         return 1;
     }
 
+    changeDirectoryByUpStepByStep(){
+        local sprits
+        local prePath
+        local folders
+        sprits="${PWD//[^\/]}"
+        prePath=../
+        for ((i=0; i<${#sprits}; i++)); do
+            folders=("$prePath""$1"*/)
+            for folder in "${folders[@]}"; do
+                [[ -d "$folder" ]] && cd "$folder" && return 0;
+            done
+            prePath="$prePath"../
+        done
+        
+        return 1;
+    }
+
     main(){
         [[ "$*" == *"/?"* ]] && showUsage && return 0;
         [[ $# -gt 1 ]] && showUsage && return 1;
 
         [[ $# -eq 0 ]] && cd "$OLDPWD" && return 0;
-
         changeDirectoryByPartialMatching "$1" && return 0;
         changeDirectoryByNumberDot "$1" && return 0;
         changeDirectoryByDownwardRecursive "$1" && return 0;
+        changeDirectoryByUpStepByStep "$1" && return 0;
 
         echo No such directory: "$1"
         return 1;
