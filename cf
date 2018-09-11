@@ -31,12 +31,12 @@ cf(){
     changeDirectoryByNumberDot(){
         echo "$1" | grep -E "^[1-9][0-9]*\\.$" 1>/dev/null || return 1;
         local i
-        local folder
-        folder=""
+        local prePath
+        prePath=""
         for ((i=0; i<${1:0:-1}; i++)); do
-            folder="$folder"../
+            prePath="$prePath"../
         done
-        cd "$folder"
+        cd "$prePath"
         return 0;
     }
 
