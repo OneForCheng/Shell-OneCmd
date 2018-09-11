@@ -51,6 +51,7 @@ cf(){
     changeDirectoryByUpStepByStep(){
         local sprits
         local prePath
+        local folder
         local folders
         sprits="${PWD//[^\/]}"
         prePath=../
