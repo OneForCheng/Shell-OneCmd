@@ -11,6 +11,11 @@ cf(){
         return 0;
     }
 
+    changeDirectoryByDefault(){
+        [[ "$1" == "0" ]] && cd "$OLDPWD" && return 0;
+        return 1;
+    }
+
     changeDirectoryByPartialMatching(){
         local folder
         local folders
@@ -64,7 +69,7 @@ cf(){
         [[ "$*" == *"/?"* ]] && showUsage && return 0;
         [[ $# -gt 1 ]] && showUsage && return 1;
 
-        [[ $# -eq 0 ]] && cd "$OLDPWD" && return 0;
+        changeDirectoryByDefault "$#" && return 0;
         changeDirectoryByPartialMatching "$1" && return 0;
         changeDirectoryByNumberDot "$1" && return 0;
         changeDirectoryByDownwardRecursive "$1" && return 0;
