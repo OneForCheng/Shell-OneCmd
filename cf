@@ -4,10 +4,20 @@ cf(){
 
     showUsage(){
         echo "usage: cf [directory]"
+        echo "       cf n."
         echo
         echo "       /?        Show usage."
-        
-
+        echo "       n.        The 'n' is a positive integer, which means jumping forward to the 'n' level directory."
+        echo
+        echo "       It is a enhanced command for 'cd' command."
+        echo "       It will try jump to the directory of 'OLDPWD' variable if arguments are empty."
+        echo "       It will automatic match the directory when the first argument is a part of the directory name."
+        echo "       It will find the target directory in current folder, all sub-folders and up step by step parent folders until it finds first matching directory."
+        echo
+        echo "tip:"
+        echo
+        echo "       It needs '.' or 'source' to execute this script at first."
+        echo
         return 0;
     }
 
