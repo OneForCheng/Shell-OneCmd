@@ -11,7 +11,10 @@ mov(){
         echo
         echo "       It can move multiple files or directories to the target directory."
         echo "       It will try use 'OLDPWD' variable if the target directory is not exist,"
-        echo "       but it needs '.' or 'source' to run this script."
+        echo
+        echo "tip:"
+        echo
+        echo "       It needs '.' or 'source' to execute this script at first."
         echo
         return 0;
     }
