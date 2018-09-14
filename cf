@@ -52,7 +52,7 @@ cf(){
 
     changeDirectoryByDownwardRecursive(){
         local folder
-        folder=$(find . -type d -name "$1*" -print -quit)
+        folder=$(find . -type d -name "*$1*" -print -quit)
         [[ -d "$folder" ]] && cd "$folder" && return 0;
 
         return 1;
@@ -66,7 +66,7 @@ cf(){
         sprits="${PWD//[^\/]}"
         prePath=../
         for ((i=0; i<${#sprits}; i++)); do
-            folders=("$prePath""$1"*/)
+            folders=("$prePath"*"$1"*/)
             for folder in "${folders[@]}"; do
                 [[ -d "$folder" ]] && cd "$folder" && return 0;
             done
