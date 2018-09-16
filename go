@@ -36,7 +36,7 @@ go(){
         value=$(grep -E "^$1" "$dataDictFile" | head -1)
         if [[ "$value" == "" ]]; then
             open "$1" 2>/dev/null || open "$1"* 2>/dev/null || open ./*"$1" 2>/dev/null || open ./*"$1"* 2>/dev/null
-            [[ $? -ne 0 ]] && echo No such key or file: "$1"
+            [[ $? -ne 0 ]] && echo No such key or file or can\'t open: "$1"
         else
             open "${value#*=}"
         fi
