@@ -34,8 +34,12 @@ go(){
     openValue(){
         local value
         value=$(grep -E "^$1" "$dataDictFile" | head -1)
-        [[ "$value" == "" ]] && echo No such key: "$1" && return 1;
-        open "${value#*=}"
+        if [[ "$value" == "" ]]; then
+            open ./*"$1"*
+        else
+            open "${value#*=}"
+        fi
+
         return 0;
     }
 
