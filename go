@@ -35,7 +35,7 @@ go(){
         local value
         value=$(grep -E "^$1" "$dataDictFile" | head -1)
         if [[ "$value" == "" ]]; then
-            open ./*"$1"*
+            open "$1" 2>/dev/null || open "$1"* 2>/dev/null || open ./*"$1" 2>/dev/null || open ./*"$1"* 2>/dev/null
         else
             open "${value#*=}"
         fi
