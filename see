@@ -5,19 +5,37 @@ see(){
     showUsage(){
         local scriptFileBaseName
         scriptFileBaseName=$(basename "$0")
-        echo "usage: $scriptFileBaseName "
+        echo "usage: $scriptFileBaseName [-f | -d] expression"
         echo
-        echo "       /?        Show usage."
-        
+        echo "       /?          Show usage."
+        echo "       -f          Only match file."
+        echo "       -d          Only match directory."
+        echo "       expression  The part of file or directory name."
+        echo
+        echo "       It can recursively find the file or directory."
+        echo
 
         return 0;
     }
 
-    main(){
-        [[ $# -eq 0 ]] && showUsage && return 1;
-        [[ "$*" == *"/?"* ]] && showUsage && return 0;
-
+    search(){
+        if [[ $# -eq 1 ]]; then
+            find . -name "*$1*"
+        else
+            [[ "$1" == "-d" ]] && find . -type d -name "*$2*" && return 0;
+            [[ "$1" == "-f" ]] && find . -type f -name "*$2*" && return 0;
+            showUsage && return 1;
+        fi
         return 0;
+    }
+
+    main(){
+        [[ $# -eq 0 || $# -gt 2 ]] && showUsage && return 1;
+        [[ "$*" == *"/?"* ]] && showUsage && return 0;
+        
+        search "$@"
+        
+        return $?;
     }
 
     main "$@"
