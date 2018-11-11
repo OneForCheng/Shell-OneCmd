@@ -5,17 +5,45 @@ rep(){
     showUsage(){
         local scriptFileBaseName
         scriptFileBaseName=$(basename "$0")
-        echo "usage: $scriptFileBaseName "
+        echo "usage: $scriptFileBaseName pattern [replacement]"
         echo
-        echo "       /?        Show usage."
-        
+        echo "       /?           Show usage."
+        echo "       pattern      It is a pattern or part of the name of files or folders."
+        echo "       replacement  Its default value is ''."
+        echo
+        echo "       It can replace the name of files or folders in current directory."
+        echo "       Global replacement. All matches of Pattern, within the name replaced with Replacement."
+        echo
+        return 0;
+    }
 
+    replaceFileName(){
+        local newFileName
+        for file in *; do
+            if [[ "$file" =~ "$1" ]]; then
+                newFileName="${file//$1/$2}"
+                if [[ "$newFileName" != "" ]]; then
+                    mv "$file" "$newFileName"
+                else
+                    echo "can not rename $file to ''"
+                fi
+            fi
+        done
         return 0;
     }
 
     main(){
         [[ $# -eq 0 ]] && showUsage && return 1;
         [[ "$*" == *"/?"* ]] && showUsage && return 0;
+
+        if [[ $# -eq 1 ]]; then
+            replaceFileName "$1" ""
+        elif [[ $# -eq 2 ]]; then
+            replaceFileName "$1" "$2"
+        else
+            showUsage
+            return 1; 
+        fi
 
         return 0;
     }
