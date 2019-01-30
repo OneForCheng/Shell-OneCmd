@@ -4,9 +4,11 @@ cf(){
 
     showUsage(){
         echo "usage: cf [directory]"
+        echo "       cf -n"
         echo "       cf n."
         echo
         echo "       /?        Show usage."
+        echo "       -n        The 'n' is a natural integer, which means jumping to the first n folder in history of 'dirs'."
         echo "       n.        The 'n' is a positive integer, which means jumping forward to the 'n' level directory."
         echo
         echo "       It is a enhanced command for 'cd' command."
@@ -24,6 +26,12 @@ cf(){
     changeDirectoryByDefault(){
         [[ "$1" == "0" ]] && cd "$OLDPWD" && return 0;
         return 1;
+    }
+
+    changeDirectoryByHistory(){
+        echo "$1" | grep -E "^-[0-9]+$" 1>/dev/null || return 1;
+        cd $1 1>/dev/null
+        return 0
     }
 
     changeDirectoryByPartialMatching(){
@@ -81,6 +89,7 @@ cf(){
         [[ $# -gt 1 ]] && showUsage && return 1;
 
         changeDirectoryByDefault "$#" && return 0;
+        changeDirectoryByHistory "$1" && return 0;
         changeDirectoryByPartialMatching "$1" && return 0;
         changeDirectoryByNumberDot "$1" && return 0;
         changeDirectoryByDownwardRecursive "$1" && return 0;
