@@ -3,7 +3,7 @@
 cf(){
 
     showUsage(){
-        echo "usage: cf [directory]"
+        echo "usage: cf [directory] [...]"
         echo "       cf -n"
         echo "       cf n."
         echo
@@ -12,6 +12,7 @@ cf(){
         echo "       n.        The 'n' is a positive integer, which means jumping forward to the 'n' level directory."
         echo
         echo "       It is a enhanced command for 'cd' command."
+        echo "       It will match down path of directory step by step if arguments are multiple."
         echo "       It will try jump to the directory of 'OLDPWD' variable if arguments are empty."
         echo "       It will automatic match the directory when the first argument is a part of the directory name."
         echo "       It will find the target directory in current folder, all sub-folders and up step by step parent folders until it finds first matching directory."
@@ -31,7 +32,7 @@ cf(){
     changeDirectoryByHistory(){
         echo "$1" | grep -E "^-[0-9]+$" 1>/dev/null || return 1;
         cd $1 1>/dev/null
-        return 0
+        return 0;
     }
 
     changeDirectoryByPartialMatching(){
@@ -84,9 +85,30 @@ cf(){
         return 1;
     }
 
+    changeDirectoryByDownStepByStep(){
+      local arg
+      local folder
+      local folders
+      local prePath
+
+      prePath=./
+      for arg in "$@"; do
+            folders=("$prePath"*"$arg"*/)
+            for folder in "${folders[@]}"; do
+                [[ -d "$folder" ]] && prePath="$folder" && break;
+                echo No such directory: "$folder"
+                return 0;
+            done
+      done
+
+      cd "$prePath"
+
+      return 0;
+    }
+
     main(){
         [[ "$*" == *"/?"* ]] && showUsage && return 0;
-        [[ $# -gt 1 ]] && showUsage && return 1;
+        [[ $# -gt 1 ]] && changeDirectoryByDownStepByStep "$@" && return 0;
 
         changeDirectoryByDefault "$#" && return 0;
         changeDirectoryByHistory "$1" && return 0;
